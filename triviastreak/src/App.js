@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 function App() {
   const [question, setQuestion] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [userChoice, setUserChoice] = useState('');
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showFailureMessage, setShowFailureMessage] = useState(false);
 
   const fetchQuestion = async () => {
     try {
@@ -26,8 +29,24 @@ function App() {
       } else {
         console.error('Error fetching question:', response.statusText);
       }
+
+      // Reset game state
+      setUserChoice('');
+      setShowSuccessMessage(false);
+      setShowFailureMessage(false);
+
     } catch (error) {
       console.error('An error occurred:', error);
+    }
+  };
+
+  const handleUserChoice = (choice) => {
+    setUserChoice(choice);
+
+    if (choice === correctAnswer) {
+      setShowSuccessMessage(true);
+    } else {
+      setShowFailureMessage(true);
     }
   };
 
@@ -35,16 +54,26 @@ function App() {
     <div className="App">
       <h1>Trivia Streak</h1>
       <button onClick={fetchQuestion}>Fetch Question</button>
-      {question && (
+      {question && ( //check if question is not empty (condiotional rendering) 
         <div>
           <p>Question: {question}</p>
-          <p>Correct Answer: {correctAnswer}</p>
-          <button>True</button>
-          <button>False</button>
+          {showSuccessMessage && ( 
+            <p>Success! You answered correctly.</p>
+          )}
+          {showFailureMessage && (
+            <p>Incorrect! The correct answer was: {correctAnswer}</p>
+          )}
+          {showSuccessMessage || showFailureMessage ? ( //? operator for condition ? true : false (if else)
+            <button onClick={fetchQuestion}>Next Question</button>
+          ) : (
+            <div>
+              <button onClick={() => handleUserChoice('True')}>True</button>
+              <button onClick={() => handleUserChoice('False')}>False</button>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
-
 export default App;
