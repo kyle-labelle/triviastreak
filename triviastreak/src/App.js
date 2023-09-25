@@ -9,12 +9,14 @@ function App() {
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [difficulty, setDifficulty] = useState('easy');
+  const [gameStarted, setGameStarted] = useState(false);
 
   const fetchQuestion = async () => {
     try {
       const apiUrl = 'https://opentdb.com/api.php';
       const amount = 1;
       const category = 9; // General Knowledge
+      setGameStarted(true);
 
       const type = Math.random() < 0.5 ? 'multiple' : 'boolean'; //boolean / multiple
 
@@ -67,38 +69,49 @@ function App() {
       setScore(score + 1);
     } else {
       setScore(0);
+      setGameStarted(false);
     }
   };
 
   return (
-    <div className="App">
-      <h1>Trivia Streak</h1>
-      <p>Score: {score}</p>
-      <p>Difficulty: {difficulty}</p>
-      <button onClick={fetchQuestion}>Fetch Question</button>
-      {question && ( //check if question is not empty (condiotional rendering) 
-        <div>
-          <p>Question: <span dangerouslySetInnerHTML={{ __html: question }} /></p>
-          <div>
-            {answers.map((answer, index) => (
-              <button key={index} onClick={() => handleUserChoice(answer)} disabled={showResult}>
-                {answer}
-              </button>
-            ))}
-          </div>
-          {showResult && (
-            <div>
-              {userChoice === correctAnswer ? (
-                <p>Correct!</p>
-              ) : (
-                <p>Incorrect! The correct answer is: {correctAnswer}</p>
-              )}
-              <button onClick={fetchQuestion}>Next Question</button>
-            </div>
-          )}
-        </div>
+  <div className="App">
+    <h1>Trivia Streak</h1>
+    {(score === 0 && !gameStarted) && ( // Conditionally render the button
+        <button onClick={fetchQuestion}>
+          Start Game
+        </button>
       )}
-    </div>
+    {question && (
+      <div>
+        <div className="score-and-difficulty">
+          <p>Score: {score}</p>
+          <p>Difficulty: {difficulty}</p>
+        </div>
+        <p>Question: <span dangerouslySetInnerHTML={{ __html: question }} /></p>
+        <div>
+          {answers.map((answer, index) => (
+            <button key={index} onClick={() => handleUserChoice(answer)} disabled={showResult}>
+              {answer}
+            </button>
+          ))}
+        </div>
+        {showResult && (
+          <div>
+            {userChoice === correctAnswer ? (
+              <p>Correct!</p>
+            ) : (
+              <p>Incorrect! The correct answer is: {correctAnswer}</p>
+            )}
+            {(score > 0) && ( // Conditionally render the button
+              <button onClick={fetchQuestion}>Next Question</button>
+             )}
+            
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+
   );
 }
 export default App;

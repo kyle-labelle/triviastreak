@@ -11,10 +11,13 @@ body {
 .App {
   text-align: center;
   padding: 20px;
+  position: relative;
 }
 
 h1 {
   color: #fa9025;
+  text-shadow: 0 0 3px #FFFFFF, 0 0 5px #FFFFFF;
+  font-size: 5em;
 }
 
 p {
@@ -39,4 +42,21 @@ button:hover {
 button:disabled {
   background-color: #777;
   cursor: not-allowed;
+}
+
+/* Positioning the score and difficulty in the top right corner */
+.score-and-difficulty {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.score-and-difficulty p {
+  margin: 5px 0;
+  font-size: 1.5em;
+  color: #fa9025;
+  text-shadow: 0 0 0.5px #FFFFFF, 0 0 0.5px #FFFFFF;
 }
