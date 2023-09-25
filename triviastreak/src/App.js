@@ -6,6 +6,8 @@ function App() {
   const [answers, setAnswers] = useState([]);
   const [userChoice, setUserChoice] = useState('');
   const [showResult, setShowResult] = useState(false);
+  const [score, setScore] = useState(0);
+  const [difficulty, setDifficulty] = useState('easy');
 
   useEffect(() => {
     fetchQuestion();
@@ -15,9 +17,14 @@ function App() {
     try {
       const apiUrl = 'https://opentdb.com/api.php';
       const amount = 1;
-      const difficulty = 'easy';
       const type = 'multiple'; //boolean / multiple
       const category = 9; // General Knowledge
+
+      if (score >= 10) {
+        setDifficulty('hard');
+      } else if (score >= 5) {
+        setDifficulty('medium');
+      }
 
       const response = await fetch(`${apiUrl}?amount=${amount}&difficulty=${difficulty}&type=${type}&category=${category}`);
 
@@ -44,11 +51,19 @@ function App() {
   const handleUserChoice = (choice) => {
     setUserChoice(choice);
     setShowResult(true);
+
+    if (choice === correctAnswer) {
+      setScore(score + 1);
+    } else {
+      setScore(0);
+    }
   };
 
   return (
     <div className="App">
       <h1>Trivia Streak</h1>
+      <p>Score: {score}</p>
+      <p>Difficulty: {difficulty}</p>
       <button onClick={fetchQuestion}>Fetch Question</button>
       {question && ( //check if question is not empty (condiotional rendering) 
         <div>
