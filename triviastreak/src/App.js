@@ -17,8 +17,10 @@ function App() {
     try {
       const apiUrl = 'https://opentdb.com/api.php';
       const amount = 1;
-      const type = 'multiple'; //boolean / multiple
       const category = 9; // General Knowledge
+      
+      const type = Math.random() < 0.5 ? 'multiple' : 'boolean'; //boolean / multiple
+
 
       if (score >= 10) {
         setDifficulty('hard');
