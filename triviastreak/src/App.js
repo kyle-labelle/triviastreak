@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import './App.css'; // Import CSS file
 
 function App() {
   const [question, setQuestion] = useState('');
@@ -9,16 +10,12 @@ function App() {
   const [score, setScore] = useState(0);
   const [difficulty, setDifficulty] = useState('easy');
 
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
-
   const fetchQuestion = async () => {
     try {
       const apiUrl = 'https://opentdb.com/api.php';
       const amount = 1;
       const category = 9; // General Knowledge
-      
+
       const type = Math.random() < 0.5 ? 'multiple' : 'boolean'; //boolean / multiple
 
 
