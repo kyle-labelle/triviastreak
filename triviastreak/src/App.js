@@ -31,7 +31,11 @@ function App() {
         const data = await response.json();
         if (data.results.length > 0) {
           const questionData = data.results[0];
-          setQuestion(questionData.question);
+
+          // Replace HTML entities in the question data
+          const formattedQuestion = formatHTML(questionData.question);
+          setQuestion(formattedQuestion);         
+
           setAnswers([questionData.correct_answer, ...questionData.incorrect_answers].sort(() => Math.random() - 0.5)); //... spread operator, math.random to shuffle array
           setCorrectAnswer(questionData.correct_answer);
         } else {
@@ -45,6 +49,14 @@ function App() {
     } catch (error) {
       console.error('An error occurred:', error);
     }
+  };
+
+  const formatHTML = (htmlString) => {
+    // Replace &quot; with "
+    htmlString = htmlString.replace(/&quot;/g, '"');
+    // Replace &#039; with '
+    htmlString = htmlString.replace(/&#039;/g, "'");
+    return htmlString;
   };
 
   const handleUserChoice = (choice) => {
@@ -66,7 +78,7 @@ function App() {
       <button onClick={fetchQuestion}>Fetch Question</button>
       {question && ( //check if question is not empty (condiotional rendering) 
         <div>
-          <p>Question: {question}</p>
+          <p>Question: <span dangerouslySetInnerHTML={{ __html: question }} /></p>
           <div>
             {answers.map((answer, index) => (
               <button key={index} onClick={() => handleUserChoice(answer)} disabled={showResult}>
