@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/triviastreak/static/css/main.0db3ffdb.css",
+    "main.js": "/triviastreak/static/js/main.38e79157.js",
+    "static/js/787.32674e4f.chunk.js": "/triviastreak/static/js/787.32674e4f.chunk.js",
+    "index.html": "/triviastreak/index.html",
+    "main.0db3ffdb.css.map": "/triviastreak/static/css/main.0db3ffdb.css.map",
+    "main.38e79157.js.map": "/triviastreak/static/js/main.38e79157.js.map",
+    "787.32674e4f.chunk.js.map": "/triviastreak/static/js/787.32674e4f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0db3ffdb.css",
+    "static/js/main.38e79157.js"
+  ]
+}
